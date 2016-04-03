@@ -1,0 +1,11 @@
+event_homepage:
+    path:     /
+    defaults: { _controller: AppBundle:Default:index }
+
+event_hello:
+    path: /hello
+    defaults:  { _controller: AppBundle:Default:hello}
+
+event_hello_name:
+    path: /hello/{name}
+    defaults:  { _controller: AppBundle:Default:helloName}
