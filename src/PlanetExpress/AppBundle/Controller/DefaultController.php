@@ -30,6 +30,6 @@ class DefaultController extends Controller
      */
     public function helloNameAction($name)
     {
-        return new Response("$name! It's a trap!");
+        return $this->render('AppBundle:Default:index.html.twig', ['name' => $name]);
     }
 }
