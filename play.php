@@ -25,7 +25,7 @@ use PlanetExpress\AppBundle\Entity\Event;
 $event = new Event();
 $event->setName('Happy new Year!');
 $event->setLocation('New York');
-$event->setTime(new DateTime('tomorrow noon'));
+$event->setTime(new \DateTime('tomorrow noon'));
 $event->setDetails('It\'s a surprise');
 
 $entityManager = $container->get('doctrine')->getManager();
