@@ -20,18 +20,5 @@ $container = $kernel->getContainer();
 $container->set('scope', 'request');
 $container->set('request', $request);
 
-
-use PlanetExpress\AppBundle\Entity\Event;
-
-$event = new Event();
-$event->setName('Happy new Year!');
-$event->setLocation('New York');
-$event->setTime(new DateTime('tomorrow noon'));
-$event->setDetails('It\'s a surprise');
-
-$entityManager = $container->get('doctrine')->getManager();
-$entityManager->persist($event);
-$entityManager->flush();
-
-/*$templating = $container->get('templating');
-echo $templating->render('AppBundle:Default:index.html.twig', ['name' => 'Fry']);*/
+$templating = $container->get('templating');
+echo $templating->render('AppBundle:Default:index.html.twig', ['name' => 'Fry']);
