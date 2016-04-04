@@ -13,7 +13,13 @@ class DefaultController extends Controller
      */
     public function indexAction()
     {
-        return new Response('Hello World!');
+
+        $entityManager = $this->getDoctrine()->getManager();
+        $repository = $entityManager->getRepository('AppBundle:Event');
+
+        $event = $repository->findOneBy(['name' => 'Happy new Year!']);
+
+        return $this->render('AppBundle:Default:index.html.twig', ['event' => $event, 'name' => 'Fry']);
     }
     /**
      * @Route("/hello", name="helloPage")
