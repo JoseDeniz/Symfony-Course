@@ -11,4 +11,10 @@ use Doctrine\ORM\EntityRepository;
  */
 class EventRepository extends EntityRepository
 {
+
+    public function findOneByName($name)
+    {
+        return parent::findOneBy(['name' => $name]);
+    }
+    
 }

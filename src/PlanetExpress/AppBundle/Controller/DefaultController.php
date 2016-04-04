@@ -17,7 +17,7 @@ class DefaultController extends Controller
         $entityManager = $this->getDoctrine()->getManager();
         $repository = $entityManager->getRepository('AppBundle:Event');
 
-        $event = $repository->findOneBy(['name' => 'Happy new Year!']);
+        $event = $repository->findOneByName('FooName');
 
         return $this->render('AppBundle:Default:index.html.twig', ['event' => $event, 'name' => 'Fry']);
     }
