@@ -1,1 +1,9 @@
-<h1>{{name}}! It's a trap!</h1>
+{% extends '::base.html.twig' %}
+
+{% block body %}
+    <h1>{{name}}! It's a trap!</h1>
+
+    <h2>Event Details!</h2>
+    {{ event.name }}<br/>
+    {{ event.location }}
+{% endblock %}
