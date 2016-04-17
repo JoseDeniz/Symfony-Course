@@ -2,11 +2,12 @@
 
 namespace PlanetExpress\AppBundle\Controller;
 
-use Symfony\Component\HttpFoundation\Request;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-
 use PlanetExpress\AppBundle\Entity\Event;
-use PlanetExpress\AppBundle\Form\EventType;
+use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\HttpFoundation\RedirectResponse;
+use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Security\Core\Exception\AccessDeniedException;
+use Symfony\Component\HttpFoundation\Request;
 
 /**
  * Event controller.
@@ -14,6 +15,8 @@ use PlanetExpress\AppBundle\Form\EventType;
  */
 class EventController extends Controller
 {
+    const ROLE_USER = 'ROLE_USER';
+
     /**
      * Lists all Event entities.
      *
@@ -31,10 +34,13 @@ class EventController extends Controller
 
     /**
      * Creates a new Event entity.
-     *
+     * @param Request $request
+     * @return RedirectResponse|Response
      */
     public function newAction(Request $request)
     {
+        $this->enforceUserSecurity();
+
         $event = new Event();
         $form = $this->createForm('PlanetExpress\AppBundle\Form\EventType', $event);
         $form->handleRequest($request);
@@ -59,6 +65,8 @@ class EventController extends Controller
      */
     public function showAction(Event $event)
     {
+        $this->enforceUserSecurity();
+
         $deleteForm = $this->createDeleteForm($event);
 
         return $this->render('event/show.html.twig', array(
@@ -73,6 +81,8 @@ class EventController extends Controller
      */
     public function editAction(Request $request, Event $event)
     {
+        $this->enforceUserSecurity();
+
         $deleteForm = $this->createDeleteForm($event);
         $editForm = $this->createForm('PlanetExpress\AppBundle\Form\EventType', $event);
         $editForm->handleRequest($request);
@@ -98,6 +108,8 @@ class EventController extends Controller
      */
     public function deleteAction(Request $request, Event $event)
     {
+        $this->enforceUserSecurity();
+
         $form = $this->createDeleteForm($event);
         $form->handleRequest($request);
 
@@ -108,6 +120,14 @@ class EventController extends Controller
         }
 
         return $this->redirectToRoute('event_index');
+    }
+
+    private function enforceUserSecurity()
+    {
+        $securityContext = $this->get('security.authorization_checker');
+        if (!$securityContext->isGranted(self::ROLE_USER)) {
+            throw new AccessDeniedException('Need ' . self::ROLE_USER . '!');
+        }
     }
 
     /**
@@ -122,7 +142,6 @@ class EventController extends Controller
         return $this->createFormBuilder()
             ->setAction($this->generateUrl('event_delete', array('id' => $event->getId())))
             ->setMethod('DELETE')
-            ->getForm()
-        ;
+            ->getForm();
     }
 }
