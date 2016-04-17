@@ -1,6 +1,11 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
+    {% if is_granted('IS_AUTHENTICATED_REMEMBERED') %}
+        <a href="{{ path('logout') }}">Login</a>
+    {% else %}
+        <a href="{{ path('login') }}">Logout</a>
+    {% endif %}
     <h1>Event list</h1>
 
     <table>

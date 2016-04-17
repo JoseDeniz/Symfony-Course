@@ -28,7 +28,7 @@ security:
             pattern:    ^/
             form_login:
                 check_path: login_check
-                login_path: login_form
+                login_path: login
             logout:
                 path:   logout
                 target: event_index

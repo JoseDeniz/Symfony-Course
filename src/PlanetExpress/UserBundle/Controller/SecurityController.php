@@ -9,7 +9,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 class SecurityController extends Controller
 {
     /**
-     * @Route("/login", name="login_form")
+     * @Route("/login", name="login")
      * @Template("@User/security/login.html.twig")
      */
     public function loginAction()
