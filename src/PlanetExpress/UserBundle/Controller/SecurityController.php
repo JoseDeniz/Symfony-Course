@@ -31,9 +31,16 @@ class SecurityController extends Controller
     /**
      * @Route("/login_check", name="login_check")
      */
-    public function logoutAction()
+    public function loginCheckAction()
     {
         // this is never executed, Symfony intercepts requests to this
         //return new JsonResponse(['error' => 'you fail!']);
+    }
+
+    /**
+     * @Route("/logout", name="logout")
+     */
+    public function logoutAction()
+    {
     }
 }
