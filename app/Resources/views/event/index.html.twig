@@ -2,9 +2,9 @@
 
 {% block body %}
     {% if is_granted('IS_AUTHENTICATED_REMEMBERED') %}
-        <a href="{{ path('logout') }}">Login</a>
+        <a href="{{ path('logout') }}">Logout</a>
     {% else %}
-        <a href="{{ path('login') }}">Logout</a>
+        <a href="{{ path('login') }}">Login</a>
     {% endif %}
     <h1>Event list</h1>
 
