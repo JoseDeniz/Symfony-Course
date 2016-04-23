@@ -21,7 +21,6 @@ class User implements UserInterface
      * @ORM\GeneratedValue(strategy="AUTO")
      */
     private $id;
-
     /**
      * @var string
      *
@@ -36,6 +35,21 @@ class User implements UserInterface
      */
     private $password;
 
+
+    /**
+     * @var array
+     *
+     * @ORM\Column(name="roles", type="json_array")
+     */
+    private $roles;
+
+    /**
+     * @param array $roles
+     */
+    public function setRoles($roles)
+    {
+        $this->roles = $roles;
+    }
 
     /**
      * Get id
@@ -113,7 +127,8 @@ class User implements UserInterface
      */
     public function getRoles()
     {
-        return ['ROLE_USER'];
+        $this->roles[] = 'ROLE_USER';
+        return array_unique($this->roles);
     }
 
     /**

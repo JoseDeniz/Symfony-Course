@@ -26,9 +26,14 @@ class LoadUsers implements FixtureInterface, ContainerAwareInterface
         $user = new User();
         $user->setUsername('fry');
         $user->setPassword($this->encodePassword($user, 'frypass'));
+        $user->setRoles(['ROLE_USER']);
 
-        $manager->persist($user);
-        $manager->flush();
+        $admin = new User();
+        $admin->setUsername('admin');
+        $admin->setPassword($this->encodePassword($admin, 'adminpass'));
+        $admin->setRoles(['ROLE_ADMIN']);
+
+        $this->persistUsers($manager, [$user, $admin]);
     }
 
     /**
@@ -51,5 +56,17 @@ class LoadUsers implements FixtureInterface, ContainerAwareInterface
     public function setContainer(ContainerInterface $container = null)
     {
         $this->container = $container;
+    }
+
+    /**
+     * @param ObjectManager $manager
+     * @param User[] $users
+     */
+    protected function persistUsers(ObjectManager $manager, $users)
+    {
+        foreach ($users as $user) {
+            $manager->persist($user);
+        }
+        $manager->flush();
     }
 }
