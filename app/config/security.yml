@@ -12,7 +12,7 @@ security:
     providers:
         planet_express_db_provider:
             entity:
-                class: PlanetExpress\UserBundle\UserBundle:User
+                class: PlanetExpress\UserBundle\Entity\User
                 property: username
 
 #        in_memory:
@@ -43,7 +43,7 @@ security:
             #http_basic:
             #realm: "Secured Demo Area"
 
-    access_control:
+#    access_control:
 #    Putting security in the controller class instead
 #        - { path: ^/new, roles: ROLE_USER }
 #        - { path: ^/create, roles: ROLE_USER }
