@@ -13,7 +13,6 @@ security:
         planet_express_db_provider:
             entity:
                 class: PlanetExpress\UserBundle\Entity\User
-                property: username
 
 #        in_memory:
 #            memory:
