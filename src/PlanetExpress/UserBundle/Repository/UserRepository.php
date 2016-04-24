@@ -10,4 +10,14 @@ namespace PlanetExpress\UserBundle\Repository;
  */
 class UserRepository extends \Doctrine\ORM\EntityRepository
 {
+
+    public function findOneByUsernameOrEmail($username)
+    {
+        return $this->createQueryBuilder('user')
+            ->andWhere('user.username = :username OR user.email = :email')
+            ->setParameters(['username' => $username, 'email' => $username])
+            ->getQuery()
+            ->getOneOrNullResult();
+    }
+    
 }
