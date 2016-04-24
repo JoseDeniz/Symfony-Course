@@ -3,14 +3,10 @@
 namespace PlanetExpress\UserBundle\Controller;
 
 use PlanetExpress\UserBundle\Entity\User;
+use PlanetExpress\UserBundle\Form\RegisterFormType;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use Symfony\Component\Form\Extension\Core\Type\EmailType;
-use Symfony\Component\Form\Extension\Core\Type\PasswordType;
-use Symfony\Component\Form\Extension\Core\Type\RepeatedType;
-use Symfony\Component\Form\Extension\Core\Type\SubmitType;
-use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\HttpFoundation\Request;
 
 class RegisterController extends Controller
@@ -23,18 +19,7 @@ class RegisterController extends Controller
      */
     public function registerAction(Request $request)
     {
-        /*
-         * To get the user object created
-         * $form = $this->createFormBuilder(null, ['data_class' => 'PlanetExpress\UserBundle\Entity\User'])
-         *
-         * and then use: $user = $form->getData();
-         * */
-        $form = $this->createFormBuilder()
-            ->add('username', TextType::class)
-            ->add('email', EmailType::class)
-            ->add('password', RepeatedType::class, ['type' => PasswordType::class])
-            ->add('Register', SubmitType::class, ['label' => 'Register'])
-            ->getForm();
+        $form = $this->createForm(RegisterFormType::class);
 
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
