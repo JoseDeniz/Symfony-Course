@@ -59,10 +59,17 @@ class User implements AdvancedUserInterface, \Serializable
 
     /**
      * User constructor.
+     * @param string $username
+     * @param string $email
+     * @param array $roles
+     * @param bool $isActive
      */
-    public function __construct()
+    public function __construct($username, $email, $roles=['ROLE_USER'], $isActive=true)
     {
-        $this->isActive = true;
+        $this->username = $username;
+        $this->email = $email;
+        $this->isActive = $isActive;
+        $this->roles = $roles;
     }
 
     /**
