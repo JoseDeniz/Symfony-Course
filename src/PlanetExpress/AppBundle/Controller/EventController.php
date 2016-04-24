@@ -3,6 +3,7 @@
 namespace PlanetExpress\AppBundle\Controller;
 
 use PlanetExpress\AppBundle\Entity\Event;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Response;
@@ -35,11 +36,12 @@ class EventController extends Controller
     /**
      * Creates a new Event entity.
      * @param Request $request
+     *
+     * @Security("has_role('ROLE_USER')")
      * @return RedirectResponse|Response
      */
     public function newAction(Request $request)
     {
-        $this->enforceUserSecurity();
 
         $event = new Event();
         $form = $this->createForm('PlanetExpress\AppBundle\Form\EventType', $event);
@@ -62,10 +64,10 @@ class EventController extends Controller
     /**
      * Finds and displays a Event entity.
      *
+     * @Security("has_role('ROLE_USER')")
      */
     public function showAction(Event $event)
     {
-        $this->enforceUserSecurity();
 
         $deleteForm = $this->createDeleteForm($event);
 
@@ -78,10 +80,10 @@ class EventController extends Controller
     /**
      * Displays a form to edit an existing Event entity.
      *
+     * @Security("has_role('ROLE_USER')")
      */
     public function editAction(Request $request, Event $event)
     {
-        $this->enforceUserSecurity();
 
         $deleteForm = $this->createDeleteForm($event);
         $editForm = $this->createForm('PlanetExpress\AppBundle\Form\EventType', $event);
@@ -105,10 +107,10 @@ class EventController extends Controller
     /**
      * Deletes a Event entity.
      *
+     * @Security("has_role('ROLE_USER')")
      */
     public function deleteAction(Request $request, Event $event)
     {
-        $this->enforceUserSecurity();
 
         $form = $this->createDeleteForm($event);
         $form->handleRequest($request);
@@ -120,14 +122,6 @@ class EventController extends Controller
         }
 
         return $this->redirectToRoute('event_index');
-    }
-
-    private function enforceUserSecurity()
-    {
-        $securityContext = $this->get('security.authorization_checker');
-        if (!$securityContext->isGranted(self::ROLE_USER)) {
-            throw new AccessDeniedException('Need ' . self::ROLE_USER . '!');
-        }
     }
 
     /**
