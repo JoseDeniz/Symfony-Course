@@ -36,7 +36,7 @@ class EventController extends Controller
      * Creates a new Event entity.
      * @param Request $request
      *
-     * @Security("has_role('ROLE_USER')")
+     * @Security("has_role('ROLE_USER')", expression="user == event.getOwner()")
      * @return RedirectResponse|Response
      */
     public function newAction(Request $request)
@@ -48,7 +48,7 @@ class EventController extends Controller
         if ($form->isSubmitted() && $form->isValid()) {
             $user = $this->getUser();
             $event->setOwner($user);
-            
+
             $em = $this->getDoctrine()->getManager();
             $em->persist($event);
             $em->flush();
@@ -69,7 +69,6 @@ class EventController extends Controller
      */
     public function showAction(Event $event)
     {
-
         $deleteForm = $this->createDeleteForm($event);
 
         return $this->render('event/show.html.twig', array(
@@ -81,7 +80,7 @@ class EventController extends Controller
     /**
      * Displays a form to edit an existing Event entity.
      *
-     * @Security("has_role('ROLE_USER')")
+     * @Security("has_role('ROLE_USER')", expression="user == event.getOwner()")
      */
     public function editAction(Request $request, Event $event)
     {
@@ -108,11 +107,10 @@ class EventController extends Controller
     /**
      * Deletes a Event entity.
      *
-     * @Security("has_role('ROLE_USER')")
+     * @Security("has_role('ROLE_USER')", expression="user == event.getOwner()")
      */
     public function deleteAction(Request $request, Event $event)
     {
-
         $form = $this->createDeleteForm($event);
         $form->handleRequest($request);
 
