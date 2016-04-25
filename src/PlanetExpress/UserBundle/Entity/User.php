@@ -3,13 +3,17 @@
 namespace PlanetExpress\UserBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\AdvancedUserInterface;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * User
  *
  * @ORM\Table(name="user")
  * @ORM\Entity(repositoryClass="PlanetExpress\UserBundle\Repository\UserRepository")
+ * @UniqueEntity(fields={"username"}, message="Username already exists!", groups={"registration"})
+ * @UniqueEntity(fields={"email"}, message="Email already exists!", groups={"registration"})
  */
 class User implements AdvancedUserInterface, \Serializable
 {
@@ -24,6 +28,8 @@ class User implements AdvancedUserInterface, \Serializable
     /**
      * @var string
      *
+     * @Assert\NotBlank(message="Insert username please", groups={"registration"})
+     * @Assert\Length(min="3", minMessage="Please insert at least 3 characters", groups={"registration"})
      * @ORM\Column(name="username", type="string", length=255)
      */
     private $username;
@@ -31,6 +37,8 @@ class User implements AdvancedUserInterface, \Serializable
     /**
      * @var string
      *
+     * @Assert\NotBlank(groups={"registration"})
+     * @Assert\Email(groups={"registration"})
      * @ORM\Column(name="email", type="string", length=255)
      */
     private $email;

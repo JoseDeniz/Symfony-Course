@@ -9,7 +9,15 @@
     <section class="login">
         <article>
             <h1>Register</h1>
-            {{ form_start(form, {'action': path('user_register'), 'method': 'POST'}) }}
+            {{ form_start(form,
+            {
+                'action': path('user_register'),
+                'method': 'POST',
+                'attr':
+                {
+                    'novalidate': 'novalidate'
+                }
+            }) }}
             {{ form_row(form.username) }}
             {{ form_row(form.email) }}
             {{ form_row(form.password.first, {'label': 'Password'}) }}
