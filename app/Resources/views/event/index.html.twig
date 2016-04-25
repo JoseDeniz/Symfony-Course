@@ -32,9 +32,11 @@
                         <li>
                             <a href="{{ path('event_show', { 'id': event.id }) }}">show</a>
                         </li>
+                        {% if app.user == event.owner %}
                         <li>
                             <a href="{{ path('event_edit', { 'id': event.id }) }}">edit</a>
                         </li>
+                        {% endif %}
                     </ul>
                 </td>
             </tr>
