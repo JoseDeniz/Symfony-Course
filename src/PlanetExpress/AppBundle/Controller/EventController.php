@@ -6,9 +6,8 @@ use PlanetExpress\AppBundle\Entity\Event;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\RedirectResponse;
-use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 
 /**
  * Event controller.
@@ -42,12 +41,14 @@ class EventController extends Controller
      */
     public function newAction(Request $request)
     {
-
         $event = new Event();
         $form = $this->createForm('PlanetExpress\AppBundle\Form\EventType', $event);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            $user = $this->getUser();
+            $event->setOwner($user);
+            
             $em = $this->getDoctrine()->getManager();
             $em->persist($event);
             $em->flush();
