@@ -1,44 +1,40 @@
-{% extends 'base.html.twig' %}
+{% extends 'AppBundle:Default:index.html.twig' %}
 
 {% block body %}
-    <h1>Event</h1>
 
-    <table>
-        <tbody>
-            <tr>
-                <th>Id</th>
-                <td>{{ event.id }}</td>
-            </tr>
-            <tr>
-                <th>Name</th>
-                <td>{{ event.name }}</td>
-            </tr>
-            <tr>
-                <th>Time</th>
-                <td>{% if event.time %}{{ event.time|date('Y-m-d H:i:s') }}{% endif %}</td>
-            </tr>
-            <tr>
-                <th>Location</th>
-                <td>{{ event.location }}</td>
-            </tr>
-            <tr>
-                <th>Details</th>
-                <td>{{ event.details }}</td>
-            </tr>
-        </tbody>
-    </table>
+    <section class="event-show">
+        <header id="menu">
+            <a class="link" href="{{ path('event_index') }}">&larr; back to the events list</a>
+        </header>
 
-    <ul>
-        <li>
-            <a href="{{ path('event_index') }}">Back to the list</a>
-        </li>
-        <li>
-            <a href="{{ path('event_edit', { 'id': event.id }) }}">Edit</a>
-        </li>
-        <li>
-            {{ form_start(delete_form) }}
-                <input type="submit" value="Delete">
-            {{ form_end(delete_form) }}
-        </li>
-    </ul>
+        <article>
+            <header class="map-container">
+                <img src="http://maps.googleapis.com/maps/api/staticmap?center={{ event.location | url_encode }}&markers=color:red%7Ccolor:red%7C{{ event.location | url_encode }}&zoom=14&size=300x300&maptype=roadmap&sensor=false"/>
+            </header>
+            <section>
+                <h1>
+                    {{ event.name }}
+                    <a class="button" href="{{ path('event_edit', {'id': event.id}) }}">edit</a>
+                </h1>
+
+                <dl>
+                    <dt>where:</dt>
+                    <dd>{{ event.location }}</dd>
+
+                    <dt>when:</dt>
+                    <dd>{{ event.time | date('g:ia / l M j, Y') }}</dd>
+
+                    <dt>what:</dt>
+                    <dd>{{ event.details }}</dd>
+
+                    <dt>who:</dt>
+                    <dd>
+                        <ul class="users">
+                            <li>nobody yet!</li>
+                        </ul>
+                    </dd>
+                </dl>
+            </section>
+        </article>
+    </section>
 {% endblock %}
