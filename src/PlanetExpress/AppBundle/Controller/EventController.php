@@ -36,7 +36,7 @@ class EventController extends Controller
      * Creates a new Event entity.
      * @param Request $request
      *
-     * @Security("has_role('ROLE_USER')", expression="user == event.getOwner()")
+     * @Security("has_role('ROLE_USER')")
      * @return RedirectResponse|Response
      */
     public function newAction(Request $request)
