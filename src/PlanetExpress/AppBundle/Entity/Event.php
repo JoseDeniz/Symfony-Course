@@ -4,6 +4,7 @@ namespace PlanetExpress\AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use PlanetExpress\UserBundle\Entity\User;
+use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
  * Event
@@ -54,10 +55,19 @@ class Event
     /**
      * @var User
      *
-     * @ORM\ManyToOne(targetEntity="PlanetExpress\UserBundle\Entity\User")
+     * @ORM\ManyToOne(
+     *     targetEntity="PlanetExpress\UserBundle\Entity\User",
+     *     inversedBy="events"
+     * )
      * @ORM\JoinColumn(onDelete="CASCADE")
      */
     private $owner;
+
+    /**
+     * @Gedmo\Slug(fields={"title"}, updatable=false)
+     * @ORM\Column(name="slug", unique=true)
+     */
+    private $slug;
 
     /**
      * Get id
@@ -179,6 +189,22 @@ class Event
     public function setOwner(User $owner)
     {
         $this->owner = $owner;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getSlug()
+    {
+        return $this->slug;
+    }
+
+    /**
+     * @param mixed $slug
+     */
+    public function setSlug($slug)
+    {
+        $this->slug = $slug;
     }
 }
 

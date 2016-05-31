@@ -1,5 +1,7 @@
 <?php
 
+use PlanetExpress\AppBundle\Entity\Event;
+use PlanetExpress\UserBundle\Entity\User;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Debug\Debug;
 
@@ -20,18 +22,16 @@ $container = $kernel->getContainer();
 $container->set('scope', 'request');
 $container->set('request', $request);
 
-use PlanetExpress\AppBundle\Entity\Event;
+// all setup is done!
 
-$event = new Event();
-$event->setName('Happy new Year!');
-$event->setLocation('New York');
-$event->setTime(new \DateTime('tomorrow noon'));
-$event->setDetails('It\'s a surprise');
+use Doctrine\ORM\EntityManager;
 
-$entityManager = $container->get('doctrine')->getManager();
-$entityManager->persist($event);
-$entityManager->flush();
+/** @var EntityManager $em */
+$em = $container->get('doctrine')->getManager();
+/** @var User $fry */
+$fry = $em->getRepository('UserBundle:User')->findOneByUsernameOrEmail('fry');
 
-
-/*$templating = $container->get('templating');
-echo $templating->render('AppBundle:Default:index.html.twig', ['name' => 'Fry']);*/
+/** @var $event Event */
+foreach ($fry->getEvents() as $event) {
+    var_dump($event->getName());
+}

@@ -2,7 +2,9 @@
 
 namespace PlanetExpress\UserBundle\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
+use PlanetExpress\AppBundle\Entity\Event;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\AdvancedUserInterface;
 use Symfony\Component\Validator\Constraints as Assert;
@@ -66,18 +68,25 @@ class User implements AdvancedUserInterface, \Serializable
     private $isActive;
 
     /**
+     * @ORM\OneToMany(targetEntity="PlanetExpress\AppBundle\Entity\Event", mappedBy="owner")
+     */
+    private $events;
+
+    /**
      * User constructor.
      * @param string $username
      * @param string $email
      * @param array $roles
      * @param bool $isActive
+     * @param $events
      */
-    public function __construct($username, $email, $roles=['ROLE_USER'], $isActive=true)
+    public function __construct($username, $email, $roles=['ROLE_USER'], $isActive=true, $events)
     {
         $this->username = $username;
         $this->email = $email;
         $this->isActive = $isActive;
         $this->roles = $roles;
+        $this->events = new ArrayCollection();
     }
 
     /**
@@ -314,6 +323,22 @@ class User implements AdvancedUserInterface, \Serializable
             $this->username,
             $this->password
             ) = unserialize($serialized);
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getEvents()
+    {
+        return $this->events;
+    }
+
+    /**
+     * @param mixed $events
+     */
+    public function setEvents($events)
+    {
+        $this->events = $events;
     }
 }
 
